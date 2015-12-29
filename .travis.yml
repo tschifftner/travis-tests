@@ -25,5 +25,9 @@ script:
 
   - ansible --version
 
-  - [ $(`which ansible` --version| `which cut` -d ' ' -f2) == '1.9.4' ]
+  - [ $(`which ansible` --version| cut -d ' ' -f2) == '1.9.4' ]
+  - [ $(ansible --version| cut -d ' ' -f2) == '1.9.4' ]
+
+  - which ansible
+  - which cut
   #- if [ $(`which ansible` --version| `which cut` -d ' ' -f2) == '1.9.4' ]; then exit 0; else exit 1; fi
