@@ -11,7 +11,8 @@ before_install:
 
 install:
   # Install Ansible.
-  - pip install ansible
+  #- pip install ansible
+  - pip install https://github.com/ansible/ansible/archive/devel.zip
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -34,4 +35,5 @@ script:
     || (echo "Ansible version $(ansible --version| cut -d ' ' -f2): fail" && exit 1)
 
 
+  - ansible --version
   #- if [ $(`which ansible` --version| `which cut` -d ' ' -f2) == '1.9.4' ]; then exit 0; else exit 1; fi
