@@ -12,6 +12,8 @@ before_install:
 install:
   # Install Ansible.
   #- pip install ansible
+
+  # Install ansible 2.0+
   - pip install https://github.com/ansible/ansible/archive/devel.zip
 
   # Add ansible.cfg to pick up roles path.
@@ -25,15 +27,15 @@ script:
   - ansible --version
 
   # check ansible version
-  - "[ $(`which ansible` --version| `which cut` -d ' ' -f2) != '2.0.0' ]"
-  - "[ $(`which ansible` --version| `which cut` -d ' ' -f2) == '1.9.4' ]"
-  - "[ $(`which ansible` --version| cut -d ' ' -f2) == '1.9.4' ]"
-  - "[ $(ansible --version| cut -d ' ' -f2) == '1.9.4' ]"
   - >
-    [ $(ansible --version| cut -d ' ' -f2) == '1.9.4' ]
+    [ $(ansible --version| cut -d ' ' -f2) > '1.9.4' ]
     && (echo "Ansible version $(ansible --version| cut -d ' ' -f2): pass" && exit 0)
     || (echo "Ansible version $(ansible --version| cut -d ' ' -f2): fail" && exit 1)
 
 
   - ansible --version
   #- if [ $(`which ansible` --version| `which cut` -d ' ' -f2) == '1.9.4' ]; then exit 0; else exit 1; fi
+
+notifications:
+  slack:
+    secure: FWjBPtuL/c1spawTBzoOJohcjcy4iQClUEw/PYhpo1knhOMjigdSNAfipDJ2/EmkEdox6pE24Ow/pJFW6g8FA/O9vxWhD0jIjpSvPzPPsoNOKxYzWQr1kr947pAxaVpKUvQdQbA2xdmpBgl12tPkyR7B4x1paNuFZ9k79accmwp6stvpJgVPiaBE1xRmaYtoDF7EdtWKFswcup9jP2uE6m8ILwNAblmvlv9mJogaQEuiGuPRhZdGSjSYptuyCWBi7dytmE61jF3aoWR8pqnERQmBxSBpcXdzSwdsYsmgzeb87mXXKlvumtPYtDVdXHjZ5hXawQG3FA7nOJBuQ1rjiDCFKYAd+cHA8+W1v//67kP3wdNWy0s5iJ2GrZznntUY6pGuBeVwD4A4rIMMwOzU38C40bf4lDr2YGzbHw/njrybDzn/vd2GHex6zpoEInp8dEon0gKxg5CGIQa+vjQtfKNMbB3u1nLhulh51ntNivz1PiNiZMuQk8I81m5O3Rm6tgj7G7DOGPGreEcdvOe1flkpg0xgF21EzGbqMWvXV5wCsLkzWo2Uxpwf9Q5hWnTrLC20HvBiraw/iLDBS4VgycLG5f3N5KquKEhKwCtRS/cd+X+MOZRtolNOALP1cz12aaG0Bur6VGDLYHr/LbvpOSeU82MAMmWyeUDefY7iIhw=
