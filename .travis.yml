@@ -3,7 +3,8 @@ language: python
 python: "2.7"
 
 env:
-  - SITE=test.yml
+  - SITE=test.yml ANSIBLE=1.9.4
+  - SITE=test.yml ANSIBLE=https://github.com/ansible/ansible/archive/v2.0.0-0.9.rc4.zip
 
 before_install:
   - sudo apt-get update -qq
@@ -11,10 +12,7 @@ before_install:
 
 install:
   # Install Ansible.
-  #- pip install ansible
-
-  # Install ansible 2.0+
-  - pip install https://github.com/ansible/ansible/archive/devel.zip
+  - [[ $ANSIBLE == "http"* ]] && pip install $ANSIBLE || pip install ansible==$ANSIBLE
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -34,7 +32,15 @@ script:
 
 
   - ansible --version
+
+  - echo pwd
   #- if [ $(`which ansible` --version| `which cut` -d ' ' -f2) == '1.9.4' ]; then exit 0; else exit 1; fi
 
+after_failure:
+  - echo pwd
+  - ls -l
+  - cat ansible.cfg
+  - cat /home/travis/build/tschifftner/travis-tests/ansible.cfg
+
 notifications:
-  slack: "FWjBPtuL/c1spawTBzoOJohcjcy4iQClUEw/PYhpo1knhOMjigdSNAfipDJ2/EmkEdox6pE24Ow/pJFW6g8FA/O9vxWhD0jIjpSvPzPPsoNOKxYzWQr1kr947pAxaVpKUvQdQbA2xdmpBgl12tPkyR7B4x1paNuFZ9k79accmwp6stvpJgVPiaBE1xRmaYtoDF7EdtWKFswcup9jP2uE6m8ILwNAblmvlv9mJogaQEuiGuPRhZdGSjSYptuyCWBi7dytmE61jF3aoWR8pqnERQmBxSBpcXdzSwdsYsmgzeb87mXXKlvumtPYtDVdXHjZ5hXawQG3FA7nOJBuQ1rjiDCFKYAd+cHA8+W1v//67kP3wdNWy0s5iJ2GrZznntUY6pGuBeVwD4A4rIMMwOzU38C40bf4lDr2YGzbHw/njrybDzn/vd2GHex6zpoEInp8dEon0gKxg5CGIQa+vjQtfKNMbB3u1nLhulh51ntNivz1PiNiZMuQk8I81m5O3Rm6tgj7G7DOGPGreEcdvOe1flkpg0xgF21EzGbqMWvXV5wCsLkzWo2Uxpwf9Q5hWnTrLC20HvBiraw/iLDBS4VgycLG5f3N5KquKEhKwCtRS/cd+X+MOZRtolNOALP1cz12aaG0Bur6VGDLYHr/LbvpOSeU82MAMmWyeUDefY7iIhw="
+  slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6
