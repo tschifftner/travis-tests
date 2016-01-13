@@ -4,7 +4,7 @@ python: "2.7"
 
 env:
   - SITE=test.yml ANSIBLE=1.9.4
-  - SITE=test.yml ANSIBLE=https://github.com/ansible/ansible/archive/v2.0.0-0.9.rc4.zip
+  - SITE=test.yml ANSIBLE=2.0.0.1
 
 before_install:
   - sudo apt-get update -qq
