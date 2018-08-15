@@ -17,7 +17,7 @@ after_script:
 
 before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-  - pip install --upgrade pip && pip install docker-ci-deploy==0.3.0
+  - /opt/python/3.6/bin/pip install docker-ci-deploy==0.3.0
 
 deploy:
   provider: script
@@ -25,3 +25,6 @@ deploy:
   on:
     branch: master
 #    condition: $TRAVIS_PULL_REQUEST = "false"
+
+after_failure:
+  - pip --version
