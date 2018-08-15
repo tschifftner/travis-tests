@@ -17,7 +17,7 @@ after_script:
 
 before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-  - pip install docker-ci-deploy==0.3.0
+  - pip install --upgrade pip && pip install docker-ci-deploy==0.3.0
 
 deploy:
   provider: script
