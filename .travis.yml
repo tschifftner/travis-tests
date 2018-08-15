@@ -10,7 +10,7 @@ env:
 script:
   - export image="ambimax/travis-tests"
   - docker build -t "$image" .
-  - docker run $image /builder/composer --version
+  - docker run $image test -e /builder/composer
 
 after_script:
   - docker images
