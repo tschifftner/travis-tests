@@ -29,3 +29,5 @@ deploy:
 
 after_failure:
   - pip --version
+  - dcd -h
+  - docker-ci-deploy -h
