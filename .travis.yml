@@ -19,10 +19,14 @@ after_script:
 before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
   - pip install docker-ci-deploy==0.3.0
+  - docker tag $image:1.0 $image
+  - docker tag $image:$(git rev-parse --short HEAD) $image
+  - docker tag $image:latest $image
 
 deploy:
   provider: script
-  script: dcd -t $(git rev-parse --short HEAD) -t latest "$image" && dcd "$image"
+#  script: dcd -t $(git rev-parse --short HEAD) -t latest "$image" && dcd "$image"
+  script: docker push "$image"
   on:
     branch: master
 #    condition: $TRAVIS_PULL_REQUEST = "false"
