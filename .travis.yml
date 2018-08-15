@@ -1,5 +1,6 @@
 sudo: required
 services: docker
+language: python
 
 env:
   global:
@@ -17,11 +18,11 @@ after_script:
 
 before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-  - /opt/python/3.6/bin/pip install docker-ci-deploy==0.3.0
+  - pip install docker-ci-deploy==0.3.0
 
 deploy:
   provider: script
-  script: docker-ci-deploy --tag $(git rev-parse --short HEAD) --tag latest "$image"
+  script: dcd --tag $(git rev-parse --short HEAD) --tag latest "$image"
   on:
     branch: master
 #    condition: $TRAVIS_PULL_REQUEST = "false"
