@@ -22,7 +22,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: dcd --tag $(git rev-parse --short HEAD) --tag latest "$image"
+  script: dcd -t $(git rev-parse --short HEAD) -t latest "$image" && dcd "$image"
   on:
     branch: master
 #    condition: $TRAVIS_PULL_REQUEST = "false"
